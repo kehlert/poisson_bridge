@@ -67,4 +67,8 @@ class BinomialBridge(PoissonBridge):
             split_unifs = split_unifs[1:-1]
 
             scaled_unifs = [t + dt * unifs for t,dt,unifs in zip(self.times[:-1], times_diff, split_unifs)]
+            
+            #know that the next jump occurs after T
+            #by appending it now we don't have to worry about this, special case when using the jump times later
+            scaled_unifs.append([self.T + np.random.exponential()]) 
             self.jump_times.append(np.concatenate(scaled_unifs))
