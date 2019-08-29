@@ -77,7 +77,7 @@ def nrm_with_bridge(model, x0, t_end, internal_jump_times):
         if num_jumps[reaction_index] < len(internal_jump_times[reaction_index]):
             internal_next_jump_times[reaction_index] = internal_jump_times[reaction_index][int(num_jumps[reaction_index])]
         else:
-            internal_next_jump_times[reaction_index] = internal_times[reaction_index] + np.random.exponential()
+            internal_next_jump_times[reaction_index] += np.random.exponential()
 
         x = x + model.S[:, reaction_index]
 

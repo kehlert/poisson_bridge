@@ -12,13 +12,13 @@ class BetaBridge(PoissonBridge):
         
     def generate(self):
         dim, n = self.points.shape
+        
+        Y = np.floor(np.linspace(0, self.Y_at_T, dim+1)).astype(int)
 
         times = np.zeros((dim+1,n))
-        times[-1,:] = gamma.ppf(self.points[0,:], self.Y_at_T)
+        times[-1,:] = gamma.ppf(self.points[0,:], Y[-1])
         points_index = 1 #used the zeroth row of points already
         indices_step =  2 ** (self.discretization_power - 1)
-
-        Y = np.floor(np.linspace(0, self.Y_at_T, dim+1)).astype(int)
 
         for i in range(0, self.discretization_power):
                 indices = list(range(0, dim+1, indices_step))
@@ -65,4 +65,4 @@ class BetaBridge(PoissonBridge):
         jump_times = np.sort(np.vstack((new_jump_times, self.times)), axis=0).T
 
         #need to put self.jump_times in the same format as the binomial jump times
-        self.jump_times = [jump_times[i,1:] for i in range(1, jump_times.shape[0])]
+        self.jump_times = [jump_times[i,1:] for i in range(0, n)]
